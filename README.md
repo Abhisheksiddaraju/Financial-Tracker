@@ -1,8 +1,8 @@
-# 💰 Personal Financial Tracker v2.3
+# 💰 Personal Financial Tracker v3.0
 
 A comprehensive, self-contained HTML financial management application with advanced analytics, CSV import/export, and intuitive dashboard visualizations.
 
-![Financial Tracker Demo](https://img.shields.io/badge/version-2.3-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![HTML5](https://img.shields.io/badge/HTML5-orange) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![Chart.js](https://img.shields.io/badge/Chart.js-red)
+![Financial Tracker Demo](https://img.shields.io/badge/version-3.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![HTML5](https://img.shields.io/badge/HTML5-orange) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![Chart.js](https://img.shields.io/badge/Chart.js-red)
 
 ## 🚀 Features
 
@@ -11,6 +11,7 @@ A comprehensive, self-contained HTML financial management application with advan
 - **Transaction Tracking** - Log income and expenses with detailed categorization
 - **Bank Account Balance** - Real-time balance tracking with transaction integration
 - **ETF Portfolio Tracking** - Monitor investment growth with automatic calculations
+- **Net Worth Tracking** - Comprehensive asset and liability management with real-time calculations
 
 ### 📈 Advanced Analytics
 - **50/30/20 Rule Analysis** - Automated budget breakdown and recommendations
@@ -31,6 +32,13 @@ A comprehensive, self-contained HTML financial management application with advan
 - **Transaction Filtering** - Advanced filtering by month and category
 - **Transaction Sorting** - Click any column header to sort ascending/descending
 - **Auto-save** - Real-time data protection
+
+### 🏠 Net Worth Management
+- **Asset Tracking** - Real estate, investments, vehicles, personal property, and more
+- **Liability Management** - Mortgages, loans, credit cards, and other debts
+- **Net Worth Dashboard** - Real-time calculation and visualization of total financial position
+- **Financial Goals** - Set net worth targets and track progress toward milestones
+- **Comprehensive Reports** - Export detailed asset, liability, and net worth reports
 
 ## 🎮 Live Demo
 
@@ -91,6 +99,13 @@ cd Financial-Tracker
    - "Analytics" tab unlocks after 3 months of data
    - Historical trends and predictive forecasting
    - Financial health scoring and recommendations
+
+### 6. **Track Net Worth**
+   - Use "Net Worth" tab to manage assets and liabilities
+   - Add real estate, investments, vehicles, and personal property
+   - Track mortgages, loans, credit cards, and other debts
+   - Set financial goals and monitor progress toward targets
+   - View real-time net worth calculations and trends
 
 ## 🏗️ Technical Architecture
 
@@ -201,7 +216,20 @@ Calculated from:
 
 ## 🗓️ Version History
 
-### v2.2 (Current)
+### v3.0 (Current)
+- 🏠 **Net Worth Tracking** - Comprehensive asset and liability management
+- 💰 **Asset Management** - Real estate, investments, vehicles, personal property
+- 💳 **Liability Tracking** - Mortgages, loans, credit cards, other debts
+- 📊 **Net Worth Dashboard** - Real-time financial position visualization
+- 🎯 **Financial Goals** - Net worth targets and milestone tracking
+
+### v2.3
+- 🔄 **Transaction Table Sorting** - Click any column header to sort ascending/descending
+- 📊 **Smart Sort Indicators** - Visual arrows showing current sort state
+- 🎯 **Multi-Column Sorting** - Sort by date, description, category, amount, or payment method
+- 🎨 **Interactive Headers** - Professional sorting interface with hover effects
+
+### v2.2
 - ✨ Added CSV import/export functionality
 - 🔄 Enhanced transaction filtering and month navigation
 - 📊 Advanced analytics with historical trends
@@ -267,10 +295,17 @@ Having issues? Here's how to get help:
 
 ## 🔮 Roadmap
 
-### Planned Features (v3.0)
-- 🏠 **Net Worth Tracking** - Assets and liabilities management
-- 🎯 **Goal Setting** - Savings and investment targets
-- 📊 **Investment Analysis** - Portfolio performance tracking
+### Completed Features (v3.0)
+- 🏠 **Net Worth Tracking** - Comprehensive asset and liability management
+- 💰 **Asset Management** - Real estate, investments, vehicles, personal property
+- 💳 **Liability Tracking** - Mortgages, loans, credit cards, other debts
+- 📊 **Net Worth Dashboard** - Real-time financial position visualization
+- 🎯 **Financial Goals** - Net worth targets and milestone tracking
+
+### Future Features (v3.1+)
+- 📈 **Historical Tracking** - Monthly net worth snapshots and trends
+- 💳 **Debt Management** - Payment scheduling and payoff strategies
+- 🔮 **Net Worth Forecasting** - Predictive modeling and retirement planning
 - 🔄 **Data Sync** - Cloud backup options
 - 📱 **PWA Support** - Installable web app
 

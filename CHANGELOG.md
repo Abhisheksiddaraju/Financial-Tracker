@@ -5,6 +5,28 @@ All notable changes to the Personal Financial Tracker project will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2024-12-19 (In Development)
+
+### Added
+- 🏠 **Net Worth Tracking System** - Comprehensive asset and liability management
+- 💰 **Asset Management** - Track real estate, investments, vehicles, and personal property
+- 💳 **Liability Tracking** - Monitor mortgages, loans, credit cards, and other debts
+- 📊 **Net Worth Dashboard** - Real-time calculation and visualization of total financial position
+- 🎯 **Net Worth Goals** - Set targets and track progress toward financial milestones
+- 🔄 **Asset-Liability Integration** - Seamless connection with existing budget and transaction systems
+
+### Technical
+- 🏗️ **New Data Models** - Asset and liability data structures with local storage
+- 📱 **Enhanced UI/UX** - New Net Worth tab with intuitive asset/liability management
+- 🔧 **Calculation Engine** - Real-time net worth computation and updates
+- 📊 **Enhanced Analytics** - Integration with existing financial health scoring
+
+### Planned Features (Future Versions)
+- 📈 **Historical Tracking** - Monthly net worth snapshots and trend analysis
+- 🎯 **Advanced Goal Setting** - Milestone tracking and achievement celebrations
+- 💳 **Debt Management** - Payment scheduling and optimal payoff strategies
+- 🔮 **Net Worth Forecasting** - Predictive modeling and retirement planning
+
 ## [2.3.0] - 2024-12-19
 
 ### Added
