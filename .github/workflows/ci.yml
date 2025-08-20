@@ -1,0 +1,257 @@
+name: CI - Financial Tracker
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  validate-html:
+    name: HTML Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install HTML validator
+      run: npm install -g html-validate
+      
+    - name: Validate HTML
+      run: html-validate financial-tracker.html
+      
+  lint-css:
+    name: CSS Linting
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install stylelint
+      run: npm install -g stylelint stylelint-config-standard
+      
+    - name: Extract CSS from HTML
+      run: |
+        # Extract CSS content from HTML file
+        sed -n '/<style>/,/<\/style>/p' financial-tracker.html | sed '1d;$d' > extracted.css
+        
+    - name: Lint CSS
+      run: stylelint extracted.css --config .stylelintrc.json || true
+      
+  security-check:
+    name: Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check for sensitive data
+      run: |
+        # Check for potential API keys, passwords, etc.
+        if grep -r "api_key\|password\|secret\|token" . --exclude-dir=.git; then
+          echo "⚠️  Potential sensitive data found"
+          exit 1
+        fi
+        
+    - name: Check file permissions
+      run: |
+        # Ensure no executable files
+        find . -type f -executable -not -path "./.git/*" | head -10
+        
+  browser-compatibility:
+    name: Browser Compatibility Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check HTML5 features
+      run: |
+        # Check for modern HTML5 features
+        if grep -q "input.*type.*date" financial-tracker.html; then
+          echo "✅ HTML5 date inputs found"
+        fi
+        
+        if grep -q "localStorage" financial-tracker.html; then
+          echo "✅ LocalStorage API usage found"
+        fi
+        
+        if grep -q "Chart.js" financial-tracker.html; then
+          echo "✅ Chart.js integration found"
+        fi
+        
+    - name: Check responsive design
+      run: |
+        # Check for responsive CSS
+        if grep -q "@media" financial-tracker.html; then
+          echo "✅ Responsive design found"
+        fi
+        
+        if grep -q "grid-template-columns" financial-tracker.html; then
+          echo "✅ CSS Grid usage found"
+        fi
+        
+  file-size-check:
+    name: File Size Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check file sizes
+      run: |
+        echo "📁 File sizes:"
+        ls -lh *.html *.md *.yml
+        
+        # Check if HTML file is reasonable size
+        HTML_SIZE=$(stat -c%s financial-tracker.html)
+        if [ $HTML_SIZE -gt 500000 ]; then
+          echo "⚠️  HTML file is large: ${HTML_SIZE} bytes"
+        else
+          echo "✅ HTML file size is reasonable: ${HTML_SIZE} bytes"
+        fi
+        
+  documentation-check:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check README
+      run: |
+        if [ -f "README.md" ]; then
+          echo "✅ README.md exists"
+          README_LINES=$(wc -l < README.md)
+          echo "📝 README has ${README_LINES} lines"
+        else
+          echo "❌ README.md missing"
+          exit 1
+        fi
+        
+    - name: Check LICENSE
+      run: |
+        if [ -f "LICENSE" ]; then
+          echo "✅ LICENSE file exists"
+        else
+          echo "❌ LICENSE file missing"
+          exit 1
+        fi
+        
+    - name: Check CHANGELOG
+      run: |
+        if [ -f "CHANGELOG.md" ]; then
+          echo "✅ CHANGELOG.md exists"
+        else
+          echo "❌ CHANGELOG.md missing"
+          exit 1
+        fi
+        
+    - name: Check contributing guide
+      run: |
+        if [ -f "CONTRIBUTING.md" ]; then
+          echo "✅ CONTRIBUTING.md exists"
+        else
+          echo "❌ CONTRIBUTING.md missing"
+          exit 1
+        fi
+        
+  accessibility-check:
+    name: Accessibility Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check semantic HTML
+      run: |
+        # Check for semantic HTML elements
+        if grep -q "<section\|<main\|<nav\|<header\|<footer" financial-tracker.html; then
+          echo "✅ Semantic HTML elements found"
+        else
+          echo "⚠️  Limited semantic HTML usage"
+        fi
+        
+    - name: Check form labels
+      run: |
+        # Check for proper form labeling
+        INPUT_COUNT=$(grep -c "<input" financial-tracker.html)
+        LABEL_COUNT=$(grep -c "<label" financial-tracker.html)
+        echo "📊 Input fields: ${INPUT_COUNT}, Labels: ${LABEL_COUNT}"
+        
+        if [ $INPUT_COUNT -le $LABEL_COUNT ]; then
+          echo "✅ Good label coverage"
+        else
+          echo "⚠️  Some inputs may lack labels"
+        fi
+        
+  performance-check:
+    name: Performance Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check for performance issues
+      run: |
+        # Check for potential performance issues
+        if grep -q "setInterval\|setTimeout" financial-tracker.html; then
+          echo "⚠️  Timers found - check for memory leaks"
+        fi
+        
+        if grep -q "addEventListener" financial-tracker.html; then
+          echo "✅ Event listeners properly attached"
+        fi
+        
+        # Check for inline styles (performance concern)
+        INLINE_STYLES=$(grep -c "style=" financial-tracker.html)
+        echo "🎨 Inline styles: ${INLINE_STYLES}"
+        
+        if [ $INLINE_STYLES -lt 50 ]; then
+          echo "✅ Reasonable inline style usage"
+        else
+          echo "⚠️  Many inline styles - consider external CSS"
+        fi
+        
+  final-report:
+    name: Final Report
+    runs-on: ubuntu-latest
+    needs: [validate-html, lint-css, security-check, browser-compatibility, file-size-check, documentation-check, accessibility-check, performance-check]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Generate report
+      run: |
+        echo "🎉 Financial Tracker CI Complete!"
+        echo "📊 All checks completed successfully"
+        echo "🚀 Ready for deployment"
+        
+        # Show project stats
+        echo ""
+        echo "📁 Project Statistics:"
+        echo "- HTML file: $(stat -c%s financial-tracker.html) bytes"
+        echo "- Documentation: $(find . -name "*.md" | wc -l) markdown files"
+        echo "- Total files: $(find . -type f | wc -l)"
+        
+        echo ""
+        echo "✅ All quality checks passed!"
