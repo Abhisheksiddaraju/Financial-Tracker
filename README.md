@@ -1,8 +1,8 @@
-# 💰 Personal Financial Tracker v2.2
+# 💰 Personal Financial Tracker v2.3
 
 A comprehensive, self-contained HTML financial management application with advanced analytics, CSV import/export, and intuitive dashboard visualizations.
 
-![Financial Tracker Demo](https://img.shields.io/badge/version-2.2-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![HTML5](https://img.shields.io/badge/HTML5-orange) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![Chart.js](https://img.shields.io/badge/Chart.js-red)
+![Financial Tracker Demo](https://img.shields.io/badge/version-2.3-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![HTML5](https://img.shields.io/badge/HTML5-orange) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![Chart.js](https://img.shields.io/badge/Chart.js-red)
 
 ## 🚀 Features
 
@@ -29,6 +29,7 @@ A comprehensive, self-contained HTML financial management application with advan
 - **CSV Import/Export** - Bulk data import with template support
 - **Local Storage** - Automatic data persistence in browser
 - **Transaction Filtering** - Advanced filtering by month and category
+- **Transaction Sorting** - Click any column header to sort ascending/descending
 - **Auto-save** - Real-time data protection
 
 ## 🎮 Live Demo
@@ -73,6 +74,7 @@ cd Financial-Tracker
 ### 2. **Track Transactions**
    - Use "Transactions" tab to log daily expenses and income
    - Categories align with your budget for seamless analysis
+   - Click any column header to sort transactions (ascending/descending)
    - Edit transactions inline if needed
 
 ### 3. **Monitor ETF Portfolio**

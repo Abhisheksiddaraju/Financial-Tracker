@@ -151,6 +151,43 @@
             font-weight: 600;
         }
         
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+        
+        .sortable-header:hover {
+            background: linear-gradient(135deg, #5a67d8, #6b46c1) !important;
+        }
+        
+        .sort-indicator {
+            margin-left: 8px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .sortable-header:active {
+            transform: scale(0.98);
+        }
+        
+        .sortable-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .sortable-header:hover::after {
+            opacity: 1;
+        }
+        
         .transaction-table td {
             padding: 10px 12px;
             border-bottom: 1px solid #e2e8f0;
@@ -462,6 +499,9 @@
         <div id="transactions" class="tab-content">
             <div class="section">
                 <h2>Add Transaction</h2>
+                <p style="color: #718096; margin-bottom: 20px; font-style: italic;">
+                    💡 <strong>Tip:</strong> Click on any column header to sort transactions. Click again to reverse the sort order.
+                </p>
                 <div class="input-group">
                     <div class="input-field">
                         <label>Date</label>
@@ -574,11 +614,26 @@
                 <table class="transaction-table">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Payment Method</th>
+                            <th class="sortable-header" onclick="sortTransactions('date')">
+                                Date
+                                <span class="sort-indicator" id="sort-date">▼</span>
+                            </th>
+                            <th class="sortable-header" onclick="sortTransactions('desc')">
+                                Description
+                                <span class="sort-indicator" id="sort-desc">-</span>
+                            </th>
+                            <th class="sortable-header" onclick="sortTransactions('category')">
+                                Category
+                                <span class="sort-indicator" id="sort-category">-</span>
+                            </th>
+                            <th class="sortable-header" onclick="sortTransactions('amount')">
+                                Amount
+                                <span class="sort-indicator" id="sort-amount">-</span>
+                            </th>
+                            <th class="sortable-header" onclick="sortTransactions('paymentMethod')">
+                                Payment Method
+                                <span class="sort-indicator" id="sort-paymentMethod">-</span>
+                            </th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -1249,7 +1304,7 @@
         </div>
         
         <div class="version-info">
-            Financial Tracker v2.2 - Local HTML App | Last modified: <span id="lastModified"></span>
+            Financial Tracker v2.3 - Local HTML App | Last modified: <span id="lastModified"></span>
             <br><br>
             <strong>Created by:</strong> Abhishek Siddaraju & Claude (Anthropic AI)
             <br>
@@ -1259,7 +1314,7 @@
     
     <script>
         /*
-         * Personal Financial Tracker v2.2
+         * Personal Financial Tracker v2.3
          * Created by: Abhishek Siddaraju & Claude (Anthropic AI)
          * 
          * Version History:
@@ -1284,6 +1339,11 @@
          *   - Financial Health Score: Multi-factor health assessment with visual indicators
          *   - Smart Recommendations: Personalized insights and optimization suggestions
          *   - Pattern Analysis: Seasonal trends and spending behavior identification
+         * v2.3 - Enhanced Transaction Management:
+         *   - Transaction Table Sorting: Click any column header to sort ascending/descending
+         *   - Smart Sort Indicators: Visual arrows showing current sort state
+         *   - Multi-Column Sorting: Sort by date, description, category, amount, or payment method
+         *   - Interactive Headers: Professional sorting interface with hover effects
          */
         
         // Initialize with today's date
@@ -1306,6 +1366,10 @@
         // Transaction Filtering
         let transactionViewDate = null; // Selected month for transaction view (null = all time)
         let transactionCategoryFilter = 'all'; // Selected category filter
+        
+        // Transaction Sorting
+        let currentSortColumn = 'date'; // Current column being sorted
+        let currentSortDirection = 'desc'; // Current sort direction (asc/desc)
         
         // Load data on startup
         window.onload = function() {
@@ -1831,8 +1895,11 @@
             
             // Apply filters
             const filteredTransactions = getFilteredTransactions();
+            
+            // Apply sorting to filtered transactions
+            const sortedTransactions = getSortedTransactions(filteredTransactions);
 
-            filteredTransactions.forEach((trans, filteredIndex) => {
+            sortedTransactions.forEach((trans, filteredIndex) => {
                 // Find the actual index in the full transactions array
                 const actualIndex = transactions.findIndex(t => t === trans);
                 
@@ -3438,6 +3505,9 @@
             // Set default to all time
             transactionMonthSelector.value = 'all';
             transactionViewDate = null;
+            
+            // Initialize sort indicators
+            updateSortIndicators();
         }
         
         function getFilteredTransactions() {
@@ -3592,6 +3662,87 @@
                 
                 statusElement.textContent = filterText;
             }
+        }
+        
+        // Transaction Sorting Functions
+        function sortTransactions(column) {
+            // If clicking the same column, toggle direction
+            if (currentSortColumn === column) {
+                currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                // New column, start with ascending
+                currentSortColumn = column;
+                currentSortDirection = 'asc';
+            }
+            
+            // Update sort indicators
+            updateSortIndicators();
+            
+            // Re-display transactions with new sorting
+            displayTransactions();
+        }
+        
+        function updateSortIndicators() {
+            // Reset all indicators
+            const indicators = document.querySelectorAll('.sort-indicator');
+            indicators.forEach(indicator => {
+                indicator.textContent = '-';
+            });
+            
+            // Set current sort indicator
+            const currentIndicator = document.getElementById(`sort-${currentSortColumn}`);
+            if (currentIndicator) {
+                currentIndicator.textContent = currentSortDirection === 'asc' ? '▲' : '▼';
+            }
+        }
+        
+        function getSortedTransactions(transactions) {
+            if (!transactions || transactions.length === 0) return [];
+            
+            return [...transactions].sort((a, b) => {
+                let aValue, bValue;
+                
+                switch (currentSortColumn) {
+                    case 'date':
+                        aValue = new Date(a.date);
+                        bValue = new Date(b.date);
+                        break;
+                    case 'desc':
+                        aValue = a.desc.toLowerCase();
+                        bValue = b.desc.toLowerCase();
+                        break;
+                    case 'category':
+                        aValue = a.category.toLowerCase();
+                        bValue = b.category.toLowerCase();
+                        break;
+                    case 'amount':
+                        aValue = parseFloat(a.amount);
+                        bValue = parseFloat(b.amount);
+                        break;
+                    case 'paymentMethod':
+                        aValue = a.paymentMethod.toLowerCase();
+                        bValue = b.paymentMethod.toLowerCase();
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                // Handle string comparison
+                if (typeof aValue === 'string') {
+                    if (currentSortDirection === 'asc') {
+                        return aValue.localeCompare(bValue);
+                    } else {
+                        return bValue.localeCompare(aValue);
+                    }
+                }
+                
+                // Handle number/date comparison
+                if (currentSortDirection === 'asc') {
+                    return aValue - bValue;
+                } else {
+                    return bValue - aValue;
+                }
+            });
         }
         
         // Historical Trends Functions

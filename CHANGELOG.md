@@ -5,6 +5,25 @@ All notable changes to the Personal Financial Tracker project will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2024-12-19
+
+### Added
+- 🔄 **Transaction Table Sorting** - Click any column header to sort transactions ascending/descending
+- 📊 **Smart Sort Indicators** - Visual arrows showing current sort column and direction
+- 🎯 **Multi-Column Sorting** - Sort by date, description, category, amount, or payment method
+- 💡 **Interactive Headers** - Hover effects and click feedback for better user experience
+- 🎨 **Enhanced Table UX** - Professional sorting interface with smooth transitions
+
+### Improved
+- 📋 **Transaction Management** - Better organization and data discovery capabilities
+- 🎨 **User Interface** - More intuitive table interactions and visual feedback
+- 🔍 **Data Navigation** - Easier transaction finding and analysis
+
+### Technical
+- 🏗️ **Sorting Engine** - Robust sorting algorithm handling different data types (dates, strings, numbers)
+- 🎯 **State Management** - Efficient tracking of sort preferences and column states
+- 🔄 **Integration** - Seamless integration with existing filtering and display systems
+
 ## [2.2.0] - 2024-08-20
 
 ### Added
