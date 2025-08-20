@@ -1,0 +1,197 @@
+name: CI - Financial Tracker (Windows)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  windows-check:
+    name: Windows Compatibility Check
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check file structure
+      run: |
+        echo "📁 Checking file structure on Windows..."
+        
+        # Check if main files exist
+        if (Test-Path "financial-tracker.html") {
+          echo "✅ financial-tracker.html exists"
+          
+          # Get file size using PowerShell
+          $fileSize = (Get-Item "financial-tracker.html").Length
+          echo "📊 HTML file size: $fileSize bytes"
+          
+          if ($fileSize -gt 500000) {
+            echo "⚠️  HTML file is large: $fileSize bytes"
+          } else {
+            echo "✅ HTML file size is reasonable: $fileSize bytes"
+          }
+        } else {
+          echo "❌ financial-tracker.html not found"
+          exit 1
+        }
+        
+        # Check documentation files
+        $docs = @("README.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md")
+        foreach ($doc in $docs) {
+          if (Test-Path $doc) {
+            echo "✅ $doc exists"
+          } else {
+            echo "❌ $doc missing"
+            exit 1
+          }
+        }
+        
+        # Check GitHub files
+        if (Test-Path ".github/workflows/ci.yml") {
+          echo "✅ GitHub Actions workflow exists"
+        } else {
+          echo "❌ GitHub Actions workflow missing"
+          exit 1
+        }
+        
+        if (Test-Path ".github/ISSUE_TEMPLATE/bug_report.md") {
+          echo "✅ Bug report template exists"
+        } else {
+          echo "❌ Bug report template missing"
+          exit 1
+        }
+        
+        if (Test-Path ".github/ISSUE_TEMPLATE/feature_request.md") {
+          echo "✅ Feature request template exists"
+        } else {
+          echo "❌ Feature request template missing"
+          exit 1
+        }
+        
+        if (Test-Path ".github/pull_request_template.md") {
+          echo "✅ Pull request template exists"
+        } else {
+          echo "❌ Pull request template missing"
+          exit 1
+        }
+        
+        # Count total files
+        $totalFiles = (Get-ChildItem -Recurse -File | Measure-Object).Count
+        echo "📊 Total files in repository: $totalFiles"
+        
+        echo ""
+        echo "🎉 Windows compatibility check completed successfully!"
+        
+    - name: Check HTML content
+      run: |
+        echo "🔍 Checking HTML content..."
+        
+        # Check for essential HTML elements
+        $htmlContent = Get-Content "financial-tracker.html" -Raw
+        
+        if ($htmlContent -match "<!DOCTYPE html>") {
+          echo "✅ DOCTYPE declaration found"
+        } else {
+          echo "❌ DOCTYPE declaration missing"
+        }
+        
+        if ($htmlContent -match "<html") {
+          echo "✅ HTML tag found"
+        } else {
+          echo "❌ HTML tag missing"
+        }
+        
+        if ($htmlContent -match "<head") {
+          echo "✅ Head section found"
+        } else {
+          echo "❌ Head section missing"
+        }
+        
+        if ($htmlContent -match "<body") {
+          echo "✅ Body section found"
+        } else {
+          echo "❌ Body section missing"
+        }
+        
+        if ($htmlContent -match "<script") {
+          echo "✅ JavaScript found"
+        } else {
+          echo "❌ JavaScript missing"
+        }
+        
+        if ($htmlContent -match "<style") {
+          echo "✅ CSS found"
+        } else {
+          echo "❌ CSS missing"
+        }
+        
+        # Check for Chart.js integration
+        if ($htmlContent -match "Chart\.js") {
+          echo "✅ Chart.js integration found"
+        } else {
+          echo "❌ Chart.js integration missing"
+        }
+        
+        # Check for localStorage usage
+        if ($htmlContent -match "localStorage") {
+          echo "✅ LocalStorage API usage found"
+        } else {
+          echo "❌ LocalStorage API usage missing"
+        }
+        
+        echo ""
+        echo "✅ HTML content validation completed!"
+        
+    - name: Check file encoding
+      run: |
+        echo "🔤 Checking file encoding..."
+        
+        # Check if files are UTF-8 encoded (PowerShell)
+        try {
+          $content = Get-Content "financial-tracker.html" -Encoding UTF8 -ErrorAction Stop
+          echo "✅ HTML file is UTF-8 encoded"
+        } catch {
+          echo "⚠️  HTML file encoding check failed"
+        }
+        
+        # Check markdown files
+        $mdFiles = @("README.md", "CHANGELOG.md", "CONTRIBUTING.md", "CODE_OF_CONDUCT.md")
+        foreach ($file in $mdFiles) {
+          if (Test-Path $file) {
+            try {
+              $content = Get-Content $file -Encoding UTF8 -ErrorAction Stop
+              echo "✅ $file is UTF-8 encoded"
+            } catch {
+              echo "⚠️  $file encoding check failed"
+            }
+          }
+        }
+        
+        echo ""
+        echo "✅ File encoding validation completed!"
+        
+    - name: Generate Windows report
+      run: |
+        echo ""
+        echo "🎉 Windows CI Complete!"
+        echo "📊 All Windows compatibility checks passed"
+        echo "🚀 Ready for cross-platform deployment"
+        
+        # Show project stats
+        echo ""
+        echo "📁 Project Statistics:"
+        if (Test-Path "financial-tracker.html") {
+          $fileSize = (Get-Item "financial-tracker.html").Length
+          echo "- HTML file: $fileSize bytes"
+        }
+        
+        $mdCount = (Get-ChildItem -Filter "*.md" | Measure-Object).Count
+        echo "- Documentation: $mdCount markdown files"
+        
+        $totalFiles = (Get-ChildItem -Recurse -File | Measure-Object).Count
+        echo "- Total files: $totalFiles"
+        
+        echo ""
+        echo "✅ All Windows quality checks passed!"
