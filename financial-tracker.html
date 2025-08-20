@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Financial Tracker v2.2 - Local App</title>
+    <title>Personal Financial Tracker v3.0 - Local App</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -350,7 +350,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>💰 Personal Financial Tracker v2.2</h1>
+                        <h1>💰 Personal Financial Tracker v3.0</h1>
         
         <div class="tabs">
             <button class="tab active" onclick="switchTab('monthly')">Monthly Budget</button>
@@ -4696,7 +4696,7 @@
         function exportFullAnalyticsReport() {
             let csv = `Complete Financial Analytics Report\n\n`;
             csv += `Report Generated: ${new Date().toLocaleDateString('en-GB')}\n`;
-            csv += `Financial Tracker v2.2\n\n`;
+            csv += `Financial Tracker v3.0\n\n`;
             
             // Get all analysis data
             const analysisPeriod = document.getElementById('trendsAnalysisPeriod').value;
