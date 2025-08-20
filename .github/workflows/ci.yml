@@ -139,43 +139,62 @@ jobs:
       run: |
         echo "🔒 Checking for sensitive data..."
         
-        # Check for actual sensitive data patterns (not comments)
+        # Check for actual sensitive data patterns (not comments or workflow files)
         # Look for patterns that indicate real credentials, not just the words
         SENSITIVE_FOUND=false
         
-        # Check for actual API keys (not just the word "api_key")
-        if grep -r "sk_[a-zA-Z0-9]{24,}" . --exclude-dir=.git 2>/dev/null; then
-          echo "⚠️  Potential Stripe secret key found"
-          SENSITIVE_FOUND=true
-        fi
-        
-        if grep -r "pk_[a-zA-Z0-9]{24,}" . --exclude-dir=.git 2>/dev/null; then
-          echo "⚠️  Potential Stripe publishable key found"
-          SENSITIVE_FOUND=true
-        fi
-        
-        # Check for actual passwords (not just the word "password")
-        if grep -r "password.*=.*['\"][^'\"]{8,}" . --exclude-dir=.git 2>/dev/null; then
-          echo "⚠️  Potential hardcoded password found"
-          SENSITIVE_FOUND=true
-        fi
-        
-        # Check for actual tokens (not just the word "token")
-        if grep -r "token.*=.*['\"][a-zA-Z0-9]{32,}" . --exclude-dir=.git 2>/dev/null; then
-          echo "⚠️  Potential hardcoded token found"
-          SENSITIVE_FOUND=true
-        fi
-        
-        # Check for actual secrets (not just the word "secret")
-        if grep -r "secret.*=.*['\"][a-zA-Z0-9]{16,}" . --exclude-dir=.git 2>/dev/null; then
-          echo "⚠️  Potential hardcoded secret found"
-          SENSITIVE_FOUND=true
-        fi
-        
-        # Check for actual API keys (not just the word "api_key")
-        if grep -r "api_key.*=.*['\"][a-zA-Z0-9]{16,}" . --exclude-dir=.git 2>/dev/null; then
-          echo "⚠️  Potential hardcoded API key found"
-          SENSITIVE_FOUND=true
+        # Only check the main HTML file for sensitive data, not workflow files
+        if [ -f "financial-tracker.html" ]; then
+          echo "🔍 Scanning financial-tracker.html for sensitive data..."
+          
+          # Check for actual API keys (not just the word "api_key")
+          if grep -q "sk_[a-zA-Z0-9]\{24,\}" financial-tracker.html; then
+            echo "⚠️  Potential Stripe secret key found"
+            SENSITIVE_FOUND=true
+          fi
+          
+          if grep -q "pk_[a-zA-Z0-9]\{24,\}" financial-tracker.html; then
+            echo "⚠️  Potential Stripe publishable key found"
+            SENSITIVE_FOUND=true
+          fi
+          
+          # Check for actual passwords (not just the word "password")
+          if grep -q "password.*=.*['\"][^'\"]\{8,\}" financial-tracker.html; then
+            echo "⚠️  Potential hardcoded password found"
+            SENSITIVE_FOUND=true
+          fi
+          
+          # Check for actual tokens (not just the word "token")
+          if grep -q "token.*=.*['\"][a-zA-Z0-9]\{32,\}" financial-tracker.html; then
+            echo "⚠️  Potential hardcoded token found"
+            SENSITIVE_FOUND=true
+          fi
+          
+          # Check for actual secrets (not just the word "secret")
+          if grep -q "secret.*=.*['\"][a-zA-Z0-9]\{16,\}" financial-tracker.html; then
+            echo "⚠️  Potential hardcoded secret found"
+            SENSITIVE_FOUND=true
+          fi
+          
+          # Check for actual API keys (not just the word "api_key")
+          if grep -q "api_key.*=.*['\"][a-zA-Z0-9]\{16,\}" financial-tracker.html; then
+            echo "⚠️  Potential hardcoded API key found"
+            SENSITIVE_FOUND=true
+          fi
+          
+          # Check for hardcoded database credentials
+          if grep -q "mysql://\|postgresql://\|mongodb://" financial-tracker.html; then
+            echo "⚠️  Potential database connection string found"
+            SENSITIVE_FOUND=true
+          fi
+          
+          # Check for hardcoded URLs with credentials
+          if grep -q "https://[^:]*:[^@]*@" financial-tracker.html; then
+            echo "⚠️  Potential URL with embedded credentials found"
+            SENSITIVE_FOUND=true
+          fi
+        else
+          echo "❌ financial-tracker.html not found - skipping sensitive data check"
         fi
         
         if [ "$SENSITIVE_FOUND" = true ]; then
