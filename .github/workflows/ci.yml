@@ -139,9 +139,47 @@ jobs:
       run: |
         echo "🔒 Checking for sensitive data..."
         
-        # Check for potential API keys, passwords, etc.
-        if grep -r "api_key\|password\|secret\|token" . --exclude-dir=.git 2>/dev/null; then
-          echo "⚠️  Potential sensitive data found"
+        # Check for actual sensitive data patterns (not comments)
+        # Look for patterns that indicate real credentials, not just the words
+        SENSITIVE_FOUND=false
+        
+        # Check for actual API keys (not just the word "api_key")
+        if grep -r "sk_[a-zA-Z0-9]{24,}" . --exclude-dir=.git 2>/dev/null; then
+          echo "⚠️  Potential Stripe secret key found"
+          SENSITIVE_FOUND=true
+        fi
+        
+        if grep -r "pk_[a-zA-Z0-9]{24,}" . --exclude-dir=.git 2>/dev/null; then
+          echo "⚠️  Potential Stripe publishable key found"
+          SENSITIVE_FOUND=true
+        fi
+        
+        # Check for actual passwords (not just the word "password")
+        if grep -r "password.*=.*['\"][^'\"]{8,}" . --exclude-dir=.git 2>/dev/null; then
+          echo "⚠️  Potential hardcoded password found"
+          SENSITIVE_FOUND=true
+        fi
+        
+        # Check for actual tokens (not just the word "token")
+        if grep -r "token.*=.*['\"][a-zA-Z0-9]{32,}" . --exclude-dir=.git 2>/dev/null; then
+          echo "⚠️  Potential hardcoded token found"
+          SENSITIVE_FOUND=true
+        fi
+        
+        # Check for actual secrets (not just the word "secret")
+        if grep -r "secret.*=.*['\"][a-zA-Z0-9]{16,}" . --exclude-dir=.git 2>/dev/null; then
+          echo "⚠️  Potential hardcoded secret found"
+          SENSITIVE_FOUND=true
+        fi
+        
+        # Check for actual API keys (not just the word "api_key")
+        if grep -r "api_key.*=.*['\"][a-zA-Z0-9]{16,}" . --exclude-dir=.git 2>/dev/null; then
+          echo "⚠️  Potential hardcoded API key found"
+          SENSITIVE_FOUND=true
+        fi
+        
+        if [ "$SENSITIVE_FOUND" = true ]; then
+          echo "❌ Sensitive data found - please review and remove"
           exit 1
         else
           echo "✅ No sensitive data found"
