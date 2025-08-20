@@ -35,6 +35,7 @@
             font-size: 2.5em;
             background: linear-gradient(135deg, #667eea, #764ba2);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
@@ -411,7 +412,7 @@
                         <input type="number" id="budgetHobbies" placeholder="0" onchange="updateSummary()">
                     </div>
                 </div>
-                                 <div class="input-group">
+                <div class="input-group">
                      <div class="input-field">
                          <label>Internet/Phone</label>
                          <input type="number" id="budgetInternet" placeholder="0" onchange="updateSummary()">
@@ -429,16 +430,16 @@
                          <input type="number" id="budgetMisc" placeholder="0" onchange="updateSummary()">
                      </div>
                  </div>
-                 
-                                   <!-- Total Monthly Budget Display -->
-                  <div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; text-align: center; color: white;">
+                
+                <!-- Total Monthly Budget Display -->
+                <div style="margin: 20px 0; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; text-align: center; color: white;">
                       <h3 style="margin: 0 0 10px 0; font-size: 1.2em;">Total Monthly Budget</h3>
                       <div style="font-size: 2em; font-weight: bold;" id="totalMonthlyBudget">€0.00</div>
                       <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 0.9em;">Sum of all budget categories above</p>
                   </div>
                   
-                  <!-- ETF Portfolio Status -->
-                  <div style="margin: 20px 0; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+                <!-- ETF Portfolio Status -->
+                <div style="margin: 20px 0; padding: 20px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
                       <h3 style="margin: 0 0 15px 0; color: #2d3748;">ETF Portfolio Status</h3>
                       <div class="input-group">
                           <div class="input-field">
@@ -453,10 +454,8 @@
                       <p style="color: #718096; margin-top: 15px; font-style: italic;">
                           💡 <strong>Tip:</strong> Use the ETF Portfolio tab to record your portfolio values by date. The app will automatically calculate growth rates.
                       </p>
-                  </div>
+                </div>
             </div>
-            
-
         </div>
         
         <!-- Transactions Tab -->
@@ -808,7 +807,7 @@
             
             <div class="section">
                 <h2>Budget vs Actual Spending</h2>
-               <div class="summary-grid">
+                <div class="summary-grid">
                    <div class="summary-card">
                        <div class="summary-label">Rent/Housing</div>
                        <div class="summary-value" id="rentHousingBudgetVsActual">€0 / €0</div>
@@ -829,8 +828,8 @@
                        <div class="summary-value" id="eatingOutBudgetVsActual">€0 / €0</div>
                        <div class="summary-label" id="eatingOutStatus" style="font-size: 12px; margin-top: 5px;">No Budget Set</div>
                    </div>
-               </div>
-               <div class="summary-grid">
+                </div>
+                <div class="summary-grid">
                    <div class="summary-card">
                        <div class="summary-label">Transportation</div>
                        <div class="summary-value" id="transportationBudgetVsActual">€0 / €0</div>
@@ -851,8 +850,8 @@
                        <div class="summary-value" id="hobbiesBudgetVsActual">€0 / €0</div>
                        <div class="summary-label" id="hobbiesStatus" style="font-size: 12px; margin-top: 5px;">No Budget Set</div>
                    </div>
-               </div>
-               <div class="summary-grid">
+                </div>
+                <div class="summary-grid">
                    <div class="summary-card">
                        <div class="summary-label">Internet/Phone</div>
                        <div class="summary-value" id="internetPhoneBudgetVsActual">€0 / €0</div>
@@ -873,11 +872,11 @@
                        <div class="summary-value" id="miscellaneousBudgetVsActual">€0 / €0</div>
                        <div class="summary-label" id="miscellaneousStatus" style="font-size: 12px; margin-top: 5px;">No Budget Set</div>
                    </div>
-               </div>
-               <div class="chart-container">
-                   <canvas id="budgetVsActualChart" width="400" height="200"></canvas>
-               </div>
-           </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="budgetVsActualChart" width="400" height="200"></canvas>
+                </div>
+            </div>
             
             <div class="section">
                 <h2>Budget Breakdown Analysis</h2>

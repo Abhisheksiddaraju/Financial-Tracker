@@ -49,10 +49,19 @@ cd Financial-Tracker
 # Open financial-tracker.html in your browser
 ```
 
-### Option 3: CSV Import
-1. Download the template: Click "📝 Download CSV Template"
-2. Fill in your financial data
-3. Import via "📥 Import from CSV"
+## 🚀 Getting Started
+
+### Option A: Manual Setup
+1. Open the app in your browser
+2. Navigate to "Monthly Budget" tab
+3. Enter your income and budget amounts
+4. Start adding transactions in "Transactions" tab
+
+### Option B: CSV Import (Recommended for Existing Data)
+1. Open the app in your browser
+2. Click "📝 Download CSV Template" button
+3. Fill in your financial data using the template
+4. Import via "📥 Import from CSV" button
 
 ## 📋 How to Use
 
