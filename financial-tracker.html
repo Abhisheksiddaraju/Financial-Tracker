@@ -2400,7 +2400,7 @@
             const budgetMisc = parseFloat(document.getElementById('budgetMisc').value) || 0;
             const budgetETFInvestment = parseFloat(document.getElementById('budgetETFInvestment').value) || 0;
 
-            const totalBudget = budgetRent + budgetUtilities + budgetGroceries + budgetEatingOut + budgetTransportation + budgetEntertainment + budgetShopping + budgetHobbies + budgetInternet + budgetInsurance + budgetMisc;
+            const totalBudget = budgetRent + budgetUtilities + budgetGroceries + budgetEatingOut + budgetTransportation + budgetEntertainment + budgetShopping + budgetHobbies + budgetInternet + budgetInsurance + budgetMisc + budgetETFInvestment;
             
             // ETF Investments - get from ETF transactions
             let etfCurrentValue = 0;
@@ -2426,8 +2426,8 @@
                 projected5YearValue = (projected5YearValue + (monthlyETFContribution * 12)) * 1.005; // Default 0.5% growth
             }
             
-            // Net cash flow (including ETF contributions)
-            const netCashFlow = totalIncome - totalExpenses - budgetETFInvestment - monthlyETFContribution;
+            // Net cash flow: income minus actual expenses (ETF already included in expenses)
+            const netCashFlow = totalIncome - totalExpenses;
             
                                      // Calculate 50/30/20 rule percentages based on actual spending
             const housingTotal = actualSpending['Rent/Housing'] + actualSpending['Utilities'] + actualSpending['Insurance'] + actualSpending['Internet/Phone'];
@@ -2587,6 +2587,7 @@
         }
         
         function updateBudgetVsActual() {
+            console.log('updateBudgetVsActual() called - updating budget vs actual display and charts');
             // Get budget amounts
             const budgetRent = parseFloat(document.getElementById('budgetRent').value) || 0;
             const budgetUtilities = parseFloat(document.getElementById('budgetUtilities').value) || 0;
@@ -2650,6 +2651,9 @@
             updateBudgetVsActualDisplay('insurance', budgetInsurance, actualSpending['Insurance']);
             updateBudgetVsActualDisplay('etfInvestment', budgetETFInvestment, actualSpending['ETF Investment']);
             updateBudgetVsActualDisplay('miscellaneous', budgetMisc, actualSpending['Miscellaneous']);
+            
+            // Update charts to reflect new budget values
+            updateCharts();
         }
         
         function updateBudgetVsActualDisplay(category, budget, actual) {
@@ -2696,7 +2700,7 @@
              const budgetMisc = parseFloat(document.getElementById('budgetMisc').value) || 0;
              const budgetETFInvestment = parseFloat(document.getElementById('budgetETFInvestment').value) || 0;
 
-             const totalBudget = budgetRent + budgetUtilities + budgetGroceries + budgetEatingOut + budgetTransportation + budgetEntertainment + budgetShopping + budgetHobbies + budgetInternet + budgetInsurance + budgetMisc;
+             const totalBudget = budgetRent + budgetUtilities + budgetGroceries + budgetEatingOut + budgetTransportation + budgetEntertainment + budgetShopping + budgetHobbies + budgetInternet + budgetInsurance + budgetMisc + budgetETFInvestment;
              
                          // Update pie chart with ACTUAL spending (to match the cards)
             // Calculate actual spending from transactions for selected month
@@ -2791,6 +2795,7 @@
             
             // Update Budget vs Actual Chart
             if (charts.budgetVsActual) {
+                console.log('Updating budget vs actual chart with new budget values');
                 const budgetRent = parseFloat(document.getElementById('budgetRent').value) || 0;
                 const budgetUtilities = parseFloat(document.getElementById('budgetUtilities').value) || 0;
                 const budgetGroceries = parseFloat(document.getElementById('budgetGroceries').value) || 0;

@@ -1,8 +1,8 @@
-# 💰 Personal Financial Tracker v3.0
+# 💰 Personal Financial Tracker v3.0.1
 
 A comprehensive, self-contained HTML financial management application with advanced analytics, CSV import/export, and intuitive dashboard visualizations.
 
-![Financial Tracker Demo](https://img.shields.io/badge/version-3.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![HTML5](https://img.shields.io/badge/HTML5-orange) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![Chart.js](https://img.shields.io/badge/Chart.js-red)
+![Financial Tracker Demo](https://img.shields.io/badge/version-3.0.1-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![HTML5](https://img.shields.io/badge/HTML5-orange) ![JavaScript](https://img.shields.io/badge/JavaScript-yellow) ![Chart.js](https://img.shields.io/badge/Chart.js-red)
 
 ## 🚀 Features
 
@@ -12,6 +12,7 @@ A comprehensive, self-contained HTML financial management application with advan
 - **Bank Account Balance** - Real-time balance tracking with transaction integration
 - **ETF Portfolio Tracking** - Monitor investment growth with automatic calculations
 - **Net Worth Tracking** - Comprehensive asset and liability management with real-time calculations
+ - Fixes in v3.0.1: Budget totals include ETF Investment across dashboard targets; Net Cash Flow = Income − Actual Expenses (no double-counting ETF).
 
 ### 📈 Advanced Analytics
 - **50/30/20 Rule Analysis** - Automated budget breakdown and recommendations
@@ -216,7 +217,12 @@ Calculated from:
 
 ## 🗓️ Version History
 
-### v3.0 (Current)
+### v3.0.1 (Current)
+- Fix: Dashboard “Expenses (Budget vs Actual)” card uses full monthly budget (incl. ETF Investment)
+- Fix: Net Cash Flow equals Income − Actual Expenses
+- Improvement: Charts refresh immediately when budgets change
+
+### v3.0
 - 🏠 **Net Worth Tracking** - Comprehensive asset and liability management
 - 💰 **Asset Management** - Real estate, investments, vehicles, personal property
 - 💳 **Liability Tracking** - Mortgages, loans, credit cards, other debts
